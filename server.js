@@ -24,21 +24,24 @@ app.get('/videos/:filename', (req, res)=>{
     const range = req.headers.range;
     console.log("fileSize ", fileSize)
     console.log("range ", range)
+    const CHUNK_SIZE = 10 ** 6;
 
     if(range){
         const parts = range.replace(/bytes=/, '').split('-')
         const start = parseInt(parts[0], 10);
-        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+        // const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+        const end = Math.min(start + CHUNK_SIZE, fileSize - 1);
         console.log("start ", start)
         console.log("end ", end)
         console.log("parts ", parts)
 
-        const chunksize = end - start + 1;
+        // const chunksize = end - start + 1;
+        const contentLength = end - start + 1;
         const file = fs.createReadStream(filePath, {start, end});
         const head = {
             'Content-Range': `bytes ${start}-${end}/${fileSize}`,
             'Accept-Ranges': 'bytes',
-            'Content-Length': chunksize,
+            'Content-Length': contentLength,
             'Content-Type': 'video/mp4'
         };
         res.writeHead(206, head);
