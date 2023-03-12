@@ -7,9 +7,7 @@ const app = express()
 const port = process.env.PORT || 3000;
 
 const videoFileMap={
-    'cdn':'videos/cdn.mp4',
-    'generate-pass':'videos/generate-pass.mp4',
-    'get-post':'videos/get-post.mp4',
+    'cdn':'videos/myscholarship.mp4'
 }
 
 app.get('/videos/:filename', (req, res)=>{
