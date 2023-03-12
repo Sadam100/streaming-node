@@ -22,6 +22,7 @@ app.get('/videos/:filename', (req, res)=>{
     const stat = fs.statSync(filePath);
     const fileSize = stat.size;
     const range = req.headers.range;
+    console.log("fileSize ", fileSize)
 
     if(range){
         const parts = range.replace(/bytes=/, '').split('-')
@@ -44,6 +45,7 @@ app.get('/videos/:filename', (req, res)=>{
             'Content-Length': fileSize,
             'Content-Type': 'video/mp4'
         };
+        console.log("res ", res)
         res.writeHead(200, head);
         fs.createReadStream(filePath).pipe(res)
     }
