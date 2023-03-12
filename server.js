@@ -7,12 +7,14 @@ const app = express()
 const port = process.env.PORT || 3000;
 
 const videoFileMap={
-    'cdn':'videos/cdn.mp4'
+    'myscholarship':'videos/myscholarship.mp4'
 }
 
 app.get('/videos/:filename', (req, res)=>{
     const fileName = req.params.filename;
+    console.log("fileName ", fileName)
     const filePath = videoFileMap[fileName]
+    console.log("filePath ", filePath)
     if(!filePath){
         return res.status(404).send('File not found')
     }
